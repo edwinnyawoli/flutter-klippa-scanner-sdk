@@ -216,7 +216,13 @@ class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, P
       val extras = receivedData.extras ?: return false
 
       val images: ArrayList<Image> = extras.getParcelableArrayList<Image>(KlippaScanner.IMAGES) as ArrayList<Image>
-      Toast.makeText(context, "Result was " + images.size + " images", Toast.LENGTH_LONG).show()
+      val imagePaths = images.map { it.location }
+      if (imagePaths.isNotEmpty()) {
+        resultHandler.success(imagePaths)
+      } else {
+        resultHandler.error("NOT_SCANNED", "No images scanned", null)
+      }
+      
       return true
     } else if (requestCode == this.SESSION_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
       var error: String? = null
