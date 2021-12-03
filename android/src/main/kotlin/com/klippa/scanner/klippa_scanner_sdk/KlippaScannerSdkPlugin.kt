@@ -218,7 +218,7 @@ class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, P
       val images: ArrayList<Image> = extras.getParcelableArrayList<Image>(KlippaScanner.IMAGES) as ArrayList<Image>
       val imagePaths = images.map { it.location }
       if (imagePaths.isNotEmpty()) {
-        resultHandler?.success(imagePaths)
+        resultHandler?.success(mapOf("Images" to imagePaths))
       } else {
         resultHandler?.error("NOT_SCANNED", "No images scanned", null)
       }
