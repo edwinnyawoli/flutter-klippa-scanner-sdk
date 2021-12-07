@@ -35,6 +35,16 @@ allprojects {
 
 Replace the `{your-username}` and `{your-password}` values with the ones provided by Klippa.
 
+Edit the `AndroidManifest.xml` file, adding the license key metadata. 
+```xml
+<meta-data android:name="com.klippa.scanner.klippa_scanner_sdk.license"
+            android:value="{KLIPPA_LICENSE_KEY}" />
+```
+
+Replace the `{KLIPPA_LICENSE_KEY}` with the license key provided to you by Klippa.
+
+
+
 ### iOS
 
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
