@@ -52,6 +52,7 @@ Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 platform :ios, '11.0'
 ENV['KLIPPA_SCANNER_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_SCANNER_SDK_PASSWORD'] = '{your-password}'
+ENV['KLIPPA_LICENSE_KEY'] = '{your-license}'
 
 // Edit the Runner config to add the pod:
 
@@ -95,7 +96,7 @@ import 'package:klippa_scanner_sdk/klippa_scanner_sdk.dart';
 var config = CameraConfig();
 
 try {
-  var result = await KlippaScannerSdk.startSession(config, '{insert-license-here');
+  var result = await KlippaScannerSdk.startSession(config, '{insert-license-here-or-empty-string}');
 } on PlatformException catch (e) {
   print('Failed to start session ' + e.toString());
 }
