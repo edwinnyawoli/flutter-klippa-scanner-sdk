@@ -4,20 +4,22 @@ package com.klippa.scanner.klippa_scanner_sdk
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.util.Log
+import android.util.Size
+import android.widget.Toast
 import androidx.annotation.NonNull
 import com.klippa.scanner.KlippaScanner
 import com.klippa.scanner.`object`.Image
-import android.util.Size
-import android.widget.Toast
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
+
 
 /** KlippaScannerSdkPlugin */
 class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
@@ -79,11 +81,20 @@ class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, P
     }
 
     try {
-      if (!call.hasArgument("License")) {
-        result.error(E_MISSING_SESSION_TOKEN, "Missing license", null)
-        return
-      } else {
-        KlippaScanner.license = call.argument<String>("License")!!
+      KlippaScanner.license = call.argument<String>("License")!!
+
+      if (KlippaScanner.license.isBlank()) {
+        val ai: ApplicationInfo = context.packageManager.getApplicationInfo(context.packageName,
+                PackageManager.GET_META_DATA)
+        val bundle = ai.metaData
+        val licenseKey = bundle.getString("com.klippa.scanner.klippa_scanner_sdk.license")
+
+        if (licenseKey.isNullOrBlank()) {
+          result.error(E_MISSING_SESSION_TOKEN, "Missing license", null)
+          return
+        } else {
+          KlippaScanner.license = licenseKey
+        }
       }
 
       if (call.hasArgument("AllowMultipleDocuments")) {
@@ -216,7 +227,13 @@ class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, P
       val extras = receivedData.extras ?: return false
 
       val images: ArrayList<Image> = extras.getParcelableArrayList<Image>(KlippaScanner.IMAGES) as ArrayList<Image>
-      Toast.makeText(context, "Result was " + images.size + " images", Toast.LENGTH_LONG).show()
+      val imagePaths = images.map { it.location }
+      if (imagePaths.isNotEmpty()) {
+        resultHandler?.success(mapOf("Images" to imagePaths))
+      } else {
+        resultHandler?.error("NOT_SCANNED", "No images scanned", null)
+      }
+
       return true
     } else if (requestCode == this.SESSION_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
       var error: String? = null

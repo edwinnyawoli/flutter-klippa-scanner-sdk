@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import KlippaScanner
+import Foundation
 
 public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerControllerDelegate {
     private var resultHandler: FlutterResult? = nil
@@ -31,7 +32,13 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
         let builderArgs = args as? [String: Any]
 
         if let license = builderArgs?["License"] {
-            KlippaScanner.setup.set(license: license as? String ?? "")
+            let licenseAsString = license as? String ?? ""
+            if (licenseAsString).isEmpty {
+                KlippaScanner.setup.set(license: ProcessInfo.processInfo.environment["KLIPPA_LICENSE_KEY"] ?? "")   
+            } else {
+                KlippaScanner.setup.set(license: licenseAsString)
+            }
+            
         } else {
             result(FlutterError.init(code: E_MISSING_LICENSE, message: "Missing license", details: nil))
             return
