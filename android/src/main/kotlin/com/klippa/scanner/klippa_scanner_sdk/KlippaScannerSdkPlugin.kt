@@ -242,9 +242,9 @@ class KlippaScannerSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, P
       }
       if (error != null) {
         Toast.makeText(context, "Scanner was canceled with error: $error", Toast.LENGTH_LONG).show()
-        println(error)
+        resultHandler?.error("NOT_SCANNED", "Document capture was cancelled", error)
       } else {
-        Toast.makeText(context, "Scanner was canceled", Toast.LENGTH_LONG).show()
+        resultHandler?.error("NOT_SCANNED", "No document captured", null)
       }
       return false
     }
