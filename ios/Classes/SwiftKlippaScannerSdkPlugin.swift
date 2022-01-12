@@ -80,6 +80,10 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
             KlippaScanner.setup.previewDuration = previewDuration as? Double ?? 0
         }
 
+        if let isTimerAllowed = builderArgs?["Timer.allowed"] {
+            KlippaScanner.setup.allowTimer = isTimerAllowed as? Bool ?? false
+        }
+
         if let isTimerEnabled = builderArgs?["Timer.enabled"] {
             KlippaScanner.setup.isTimerEnabled = isTimerEnabled as? Bool ?? false
         }
@@ -102,7 +106,7 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
         }
         
         if let allowShutterButton = builderArgs?["ShutterButton.allowShutterButton"] {
-            if let hideShutterButton = builderArgs?["ShutterButton.hideShutterbutton"] {
+            if let hideShutterButton = builderArgs?["ShutterButton.hideShutterButton"] {
                KlippaScanner.setup.set(allowShutterButton: allowShutterButton as? Bool ?? true, hideShutterButton: hideShutterButton as? Bool ?? false)
             }
         }
@@ -113,6 +117,10 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
         
         if let imageTooDarkMessage = builderArgs?["ImageTooDarkMessage"] {
             KlippaScanner.setup.imageTooDarkMessage = imageTooDarkMessage  as? String ?? ""
+        }
+
+        if let imageLimitReachedMessage = builderArgs?["ImageLimitReachedMessage"] {
+            KlippaScanner.setup.imageLimitReachedMessage = imageLimitReachedMessage  as? String ?? ""
         }
         
         if let primaryColor = builderArgs?["PrimaryColor"] {
@@ -171,6 +179,10 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
             KlippaScanner.setup.storeImagesToCameraRoll = storeImagesToCameraRoll as? Bool ?? true
         }
 
+        if let imageLimit = builderArgs?["ImageLimit"] {
+            KlippaScanner.setup.imageLimit = imageLimit as? Int ?? 0
+        }
+
         let rootViewController = UIApplication.shared.windows.last!.rootViewController!
 
         let modelFile = builderArgs?["Model.fileName"] as? String ?? ""
@@ -212,7 +224,9 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
     
         let resultDict = [
             "Images" : images,
-            "MultipleDocuments" : result.multipleDocumentsModeEnabled
+            "MultipleDocuments" : result.multipleDocumentsModeEnabled,
+            "Crop": result.cropEnabled,
+            "TimerEnabled" : result.timerEnabled
         ] as [String : Any]
         
         resultHandler!(resultDict)
