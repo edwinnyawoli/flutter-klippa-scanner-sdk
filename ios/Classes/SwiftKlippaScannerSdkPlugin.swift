@@ -34,7 +34,8 @@ public class SwiftKlippaScannerSdkPlugin: NSObject, FlutterPlugin, ImageScannerC
         if let license = builderArgs?["License"] {
             let licenseAsString = license as? String ?? ""
             if (licenseAsString).isEmpty {
-                KlippaScanner.setup.set(license: ProcessInfo.processInfo.environment["KLIPPA_LICENSE_KEY"] ?? "")   
+                let dict = Bundle.main.infoDictionary;
+                KlippaScanner.setup.set(license: dict?["KLIPPA_LICENSE_KEY" as String] as! String )
             } else {
                 KlippaScanner.setup.set(license: licenseAsString)
             }
