@@ -81,6 +81,8 @@ Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescript
 <string>Access to your camera is needed to photograph documents.</string>
 <key>NSPhotoLibraryAddUsageDescription</key>
 <string>Access to your photo library is used to save the images of documents.</string>
+<key>KLIPPA_LICENSE_KEY</key>
+<string>${KLIPPA_LICENSE_KEY}</string>
 ...
 ```
 
