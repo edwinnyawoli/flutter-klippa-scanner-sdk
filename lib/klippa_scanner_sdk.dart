@@ -5,160 +5,205 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class ModelOptions {
+  const ModelOptions({this.fileName = '', this.modelLabels = ''});
+
   /// The name of the model file when using custom object detection.
-  String fileName;
+  final String fileName;
 
   /// The name of the label file when using custom object detection.
-  String modelLabels;
+  final String modelLabels;
 }
 
 class TimerOptions {
+  const TimerOptions({this.allowed, this.enabled, this.duration});
+
   /// Whether the timerButton is shown or hidden.
-  bool allowed;
+  final bool? allowed;
 
   /// Whether automatically capturing of images is enabled. Only available when using a custom object detection model.
-  bool enabled;
+  final bool? enabled;
 
   /// The duration of the interval (in seconds) in which images are automatically captured, should be a float.
-  num duration;
+  final num? duration;
 }
 
 class Dimensions {
+  const Dimensions(this.width, this.height);
+
   /// To add extra horizontal padding to the cropped image.
-  num width;
+  final num? width;
 
   /// To add extra vertical padding to the cropped image.
-  num height;
-
-  Dimensions(this.width, this.height);
+  final num? height;
 }
 
 class SuccessOptions {
+  const SuccessOptions({this.message = '', this.previewDuration});
+
   /// After capture, show a checkmark preview with this success message, instead of a preview of the image.
-  String message;
+  final String message;
 
   /// The amount of seconds the success message should be visible for, should be a float.
-  num previewDuration;
+  final num? previewDuration;
 }
 
 enum DefaultColor { original, grayscale }
 
 class ShutterButton {
+  const ShutterButton({this.allowshutterButton, this.hideShutterButton});
+
   /// Whether to allow or disallow the shutter button to work (can only be disabled if a model is supplied)
-  bool allowshutterButton;
+  final bool? allowshutterButton;
 
   /// Whether the shutter button should be hidden (only works if allowShutterButton is false)
-  bool hideShutterButton;
+  final bool? hideShutterButton;
 }
 
 class CameraConfig {
+  CameraConfig({
+    this.allowMultipleDocuments,
+    this.defaultMultipleDocuments,
+    this.defaultCrop,
+    this.moveCloserMessage = '',
+    this.imageMovingMessage = '',
+    this.imageMaxWidth,
+    this.imageMaxHeight,
+    this.imageMaxQuality,
+    this.previewDuration,
+    this.imageLimit,
+    this.imageLimitReachedMessage = '',
+    this.model = const ModelOptions(),
+    this.timer = const TimerOptions(),
+    this.cropPadding = const Dimensions(0, 0),
+    this.success = const SuccessOptions(),
+    this.shutterButton = const ShutterButton(),
+    this.storagePath = '',
+    this.defaultColor,
+    this.outputFileName = '',
+    this.imageMovingSensitivityAndroid,
+    this.imageTooBrightMessage = '',
+    this.imagetooDarkMessage = '',
+    this.primaryColor,
+    this.accentColor,
+    this.overlayColor,
+    this.warningBackgroundColor,
+    this.warningTextColor,
+    this.overlayColorAlpha,
+    this.iconEnabledColor,
+    this.iconDisabledColor,
+    this.reviewIconColor,
+    this.isViewFinderEnabled,
+    this.imageMovingSensitivityiOS,
+    this.storeImagesToCameraRol,
+  });
+
   /// Global options.
 
   /// Whether to show the icon to enable "multi-document"mode".
-  bool allowMultipleDocuments;
+  final bool? allowMultipleDocuments;
 
   /// Whethe the "multi-document-mode" should be enabled by default.
-  bool defaultMultipleDocuments;
+  final bool? defaultMultipleDocuments;
 
   /// Whether the crop mode (auto edge detection) should be enabled by default.
-  bool defaultCrop;
+  final bool? defaultCrop;
 
   /// The warning message when someone should move closer to a document.
-  String moveCloserMessage;
+  final String moveCloserMessage;
 
   /// The warning message when the camera preview has to much motion to be able to automatically take a photo.
-  String imageMovingMessage;
+  final String imageMovingMessage;
 
   /// The max width of the result image.
-  num imageMaxWidth;
+  final num? imageMaxWidth;
 
   /// The max height of the result image.
-  num imageMaxHeight;
+  final num? imageMaxHeight;
 
   /// Set the quality (between 0-100) of the jpg encoder. Default is 100.
-  num imageMaxQuality;
+  final num? imageMaxQuality;
 
   /// The amount of seconds the preview should be visible for, should be a float.
-  num previewDuration;
+  final num? previewDuration;
 
   /// To limit the amount of images that can be taken.
-  num imageLimit;
+  final num? imageLimit;
 
   /// The message to display when the limit has reached
-  String imageLimitReachedMessage;
+  final String imageLimitReachedMessage;
 
   /// If you would like to use a custom model for object detection. Model + labels file should be packaged in your bundle.
-  ModelOptions model = new ModelOptions();
+  final ModelOptions model;
 
   /// If you would like to enable automatic capturing of images.
-  TimerOptions timer = new TimerOptions();
+  final TimerOptions timer;
 
   /// To add extra horizontal and / or vertical padding to the cropped image.
-  Dimensions cropPadding = new Dimensions(0, 0);
+  final Dimensions cropPadding;
 
   /// After capture, show a checkmark preview with this success message, instead of a preview of the image.
-  SuccessOptions success = new SuccessOptions();
+  final SuccessOptions success;
 
   /// Whether to disable/hide the shutterbutton (only works if a model is supplied).
-  ShutterButton shutterButton = new ShutterButton();
+  final ShutterButton shutterButton;
 
   /// Android Options
 
   /// Where to put the image results
-  String storagePath;
+  final String storagePath;
 
   /// What the default color conversion will be (grayscale, original)
-  DefaultColor defaultColor;
+  final DefaultColor? defaultColor;
 
   /// The filename to be given to the image results.
-  String outputFileName;
+  final String outputFileName;
 
   /// The threshold of how sensitive the motion detection is. (lower value is higher sensitivity, default 50)
-  num imageMovingSensitivityAndroid;
+  final num? imageMovingSensitivityAndroid;
 
   /// iOS Options
 
   /// The warning message when the camera result is too bright.
-  String imageTooBrightMessage;
+  final String imageTooBrightMessage;
 
   /// The warning message when the camera result is too dark.
-  String imagetooDarkMessage;
+  final String imagetooDarkMessage;
 
   /// The primary color of the interface, should be a hex RGB color string.
-  Color primaryColor;
+  final Color? primaryColor;
 
   /// The accent color of the interface, should be a hex RGB color string.
-  Color accentColor;
+  final Color? accentColor;
 
   /// The overlay color (when using document detection), should be a hex RGB color string.
-  Color overlayColor;
+  final Color? overlayColor;
 
   /// The color of the background of the warning message, should be a hex RGB color string.
-  Color warningBackgroundColor;
+  final Color? warningBackgroundColor;
 
   /// The color of the text of the warning message, should be a hex RGB color string.
-  Color warningTextColor;
+  final Color? warningTextColor;
 
   /// The amount of opacity for the overlay, should be a float.
-  num overlayColorAlpha;
+  final num? overlayColorAlpha;
 
   /// The color of the menu icons when they are enabled, should be a hex RGB color string.
-  Color iconEnabledColor;
+  final Color? iconEnabledColor;
 
   /// The color of the menu icons when they are enabled, should be a hex RGB color string.
-  Color iconDisabledColor;
+  final Color? iconDisabledColor;
 
   /// The color of the menu icons of the screen where you can review/edit the images, should be a hex RGB color string.
-  Color reviewIconColor;
+  final Color? reviewIconColor;
 
   /// Whether the camera has a view finder overlay (a helper grid so the user knows where the document should be), should be a Boolean.
-  bool isViewFinderEnabled;
+  final bool? isViewFinderEnabled;
 
   /// The threshold sensitive the motion detection is. (lower value is higher sensitivity, default 200).
-  num imageMovingSensitivityiOS;
+  final num? imageMovingSensitivityiOS;
 
   /// Whether the camera automatically saves the images to the camera roll. Default true. (iOS version 0.4.2 and up only)
-  bool storeImagesToCameraRol;
+  final bool? storeImagesToCameraRol;
 }
 
 /// A helper to convert flutter Color to a hex ARGB.
@@ -196,11 +241,11 @@ class KlippaScannerSdk {
       parameters["DefaultCrop"] = config.defaultCrop;
     }
 
-    if (config.moveCloserMessage != null) {
+    if (config.moveCloserMessage.isNotEmpty) {
       parameters["MoveCloserMessage"] = config.moveCloserMessage;
     }
 
-    if (config.imageMovingMessage != null) {
+    if (config.imageMovingMessage.isNotEmpty) {
       parameters["ImageMovingMessage"] = config.imageMovingMessage;
     }
 
@@ -220,75 +265,65 @@ class KlippaScannerSdk {
       parameters["PreviewDuration"] = config.previewDuration;
     }
 
-    if (config.model != null) {
-      if (config.model.fileName != null) {
-        parameters["Model.fileName"] = config.model.fileName;
-      }
-      if (config.model.modelLabels != null) {
-        parameters["Model.modelLabels"] = config.model.modelLabels;
-      }
+    if (config.model.fileName.isNotEmpty) {
+      parameters["Model.fileName"] = config.model.fileName;
+    }
+    if (config.model.modelLabels.isNotEmpty) {
+      parameters["Model.modelLabels"] = config.model.modelLabels;
     }
 
-    if (config.timer != null) {
-      if (config.timer.allowed != null) {
-        parameters["Timer.allowed"] = config.timer.allowed;
-      }
-      if (config.timer.enabled != null) {
-        parameters["Timer.enabled"] = config.timer.enabled;
-      }
-      if (config.timer.duration != null) {
-        parameters["Timer.duration"] = config.timer.duration;
-      }
+    if (config.timer.allowed != null) {
+      parameters["Timer.allowed"] = config.timer.allowed;
+    }
+    if (config.timer.enabled != null) {
+      parameters["Timer.enabled"] = config.timer.enabled;
+    }
+    if (config.timer.duration != null) {
+      parameters["Timer.duration"] = config.timer.duration;
     }
 
-    if (config.cropPadding != null) {
-      if (config.cropPadding.height != null) {
-        parameters["CropPadding.height"] = config.cropPadding.height;
-      }
-      if (config.cropPadding.width != null) {
-        parameters["CropPadding.width"] = config.cropPadding.width;
-      }
+    if (config.cropPadding.height != null) {
+      parameters["CropPadding.height"] = config.cropPadding.height;
+    }
+    if (config.cropPadding.width != null) {
+      parameters["CropPadding.width"] = config.cropPadding.width;
     }
 
-    if (config.success != null) {
-      if (config.success.previewDuration != null) {
-        parameters["Success.previewDuration"] = config.success.previewDuration;
-      }
-      if (config.success.message != null) {
-        parameters["Success.message"] = config.success.message;
-      }
+    if (config.success.previewDuration != null) {
+      parameters["Success.previewDuration"] = config.success.previewDuration;
+    }
+    if (config.success.message.isNotEmpty) {
+      parameters["Success.message"] = config.success.message;
     }
 
-    if (config.shutterButton != null) {
-      if (config.shutterButton.allowshutterButton != null) {
-        parameters["ShutterButton.allowShutterButton"] =
-            config.shutterButton.allowshutterButton;
-      }
-      if (config.shutterButton.hideShutterButton != null) {
-        parameters["ShutterButton.hideShutterButton"] =
-            config.shutterButton.hideShutterButton;
-      }
+    if (config.shutterButton.allowshutterButton != null) {
+      parameters["ShutterButton.allowShutterButton"] =
+          config.shutterButton.allowshutterButton;
+    }
+    if (config.shutterButton.hideShutterButton != null) {
+      parameters["ShutterButton.hideShutterButton"] =
+          config.shutterButton.hideShutterButton;
     }
 
     if (config.imageLimit != null) {
       parameters["ImageLimit"] = config.imageLimit;
     }
 
-    if (config.imageLimitReachedMessage != null) {
+    if (config.imageLimitReachedMessage.isNotEmpty) {
       parameters["ImageLimitReachedMessage"] = config.imageLimitReachedMessage;
     }
 
     /// Android only
 
-    if (config.storagePath != null) {
+    if (config.storagePath.isNotEmpty) {
       parameters["StoragePath"] = config.storagePath;
     }
 
     if (config.defaultColor != null) {
-      parameters["DefaultColor"] = describeEnum(config.defaultColor);
+      parameters["DefaultColor"] = describeEnum(config.defaultColor!);
     }
 
-    if (config.outputFileName != null) {
+    if (config.outputFileName.isNotEmpty) {
       parameters["OutputFilename"] = config.outputFileName;
     }
 
@@ -299,27 +334,27 @@ class KlippaScannerSdk {
 
     /// iOS only
 
-    if (config.imageTooBrightMessage != null) {
+    if (config.imageTooBrightMessage.isNotEmpty) {
       parameters["ImageTooBrightMessage"] = config.imageTooBrightMessage;
     }
 
-    if (config.imagetooDarkMessage != null) {
+    if (config.imagetooDarkMessage.isNotEmpty) {
       parameters["ImageTooDarkMessage"] = config.imagetooDarkMessage;
     }
 
     if (config.primaryColor != null) {
       parameters["PrimaryColor"] =
-          KIVHexColor.flutterColorToHex(config.primaryColor, true);
+          KIVHexColor.flutterColorToHex(config.primaryColor!, true);
     }
 
     if (config.accentColor != null) {
       parameters["AccentColor"] =
-          KIVHexColor.flutterColorToHex(config.accentColor, true);
+          KIVHexColor.flutterColorToHex(config.accentColor!, true);
     }
 
     if (config.overlayColor != null) {
       parameters["OverlayColor"] =
-          KIVHexColor.flutterColorToHex(config.overlayColor, true);
+          KIVHexColor.flutterColorToHex(config.overlayColor!, true);
     }
 
     if (config.overlayColorAlpha != null) {
@@ -328,27 +363,27 @@ class KlippaScannerSdk {
 
     if (config.warningBackgroundColor != null) {
       parameters["WarningBackgroundColor"] =
-          KIVHexColor.flutterColorToHex(config.warningBackgroundColor, true);
+          KIVHexColor.flutterColorToHex(config.warningBackgroundColor!, true);
     }
 
     if (config.warningTextColor != null) {
       parameters["WarningTextColor"] =
-          KIVHexColor.flutterColorToHex(config.warningTextColor, true);
+          KIVHexColor.flutterColorToHex(config.warningTextColor!, true);
     }
 
     if (config.iconEnabledColor != null) {
       parameters["IconEnabledColor"] =
-          KIVHexColor.flutterColorToHex(config.iconEnabledColor, true);
+          KIVHexColor.flutterColorToHex(config.iconEnabledColor!, true);
     }
 
     if (config.iconDisabledColor != null) {
       parameters["IconDisabledColor"] =
-          KIVHexColor.flutterColorToHex(config.iconDisabledColor, true);
+          KIVHexColor.flutterColorToHex(config.iconDisabledColor!, true);
     }
 
     if (config.reviewIconColor != null) {
       parameters["ReviewIconColor"] =
-          KIVHexColor.flutterColorToHex(config.reviewIconColor, true);
+          KIVHexColor.flutterColorToHex(config.reviewIconColor!, true);
     }
 
     if (config.isViewFinderEnabled != null) {

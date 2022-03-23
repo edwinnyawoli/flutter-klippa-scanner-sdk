@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klippa_scanner_sdk/klippa_scanner_sdk.dart';
 
@@ -24,12 +23,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _startSession() async {
-
     String sessionResultText = 'Unknown';
-    var config = CameraConfig();
+    ModelOptions modelOptions = ModelOptions(
+      fileName: "model",
+      modelLabels: "labelmap",
+    );
+    var config = CameraConfig(model: modelOptions);
 
-    config.model.fileName = "model";
-    config.model.modelLabels = "labelmap";
     try {
       var result = await KlippaScannerSdk.startSession(config, license);
       sessionResultText = 'Finished';
@@ -43,7 +43,6 @@ class _MyAppState extends State<MyApp> {
     });
 
     if (!mounted) return;
-
   }
 
   @override
